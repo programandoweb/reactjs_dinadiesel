@@ -1,0 +1,78 @@
+#root{
+  max-width:512px;
+  margin: 0 auto;
+}
+p{
+  text-align: justify;
+}
+
+.p-3{
+  padding: 30px;
+  padding-top: 0;
+}
+
+.container{
+  width: 100%;
+
+}
+
+.img-resposive{
+  width: 100%;
+  margin: 0 auto;
+}
+
+.home > div{
+  height: 100%;
+}
+.wfull{
+  width: 100%;
+}
+.hfull,
+.hfull > div,
+.hfull > div > div,
+/* .hfull > div > div >div */
+{
+  height: 100%;
+}
+
+.stretch{
+  background:no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+
+@media (min-width: 768px) and (max-width: 1024px) {
+
+}
+
+/*
+  ##Device = Tablets, Ipads (landscape)
+  ##Screen = B/w 768px to 1024px
+*/
+
+@media (min-width: 768px) and (max-width: 1024px) and (orientation: landscape) {
+
+}
+
+/*
+  ##Device = Low Resolution Tablets, Mobiles (Landscape)
+  ##Screen = B/w 481px to 767px
+*/
+
+@media (min-width: 481px) and (max-width: 767px) {
+
+}
+
+/*
+  ##Device = Most of the Smartphones Mobiles (Portrait)
+  ##Screen = B/w 320px to 479px
+*/
+
+@media (min-width: 320px) and (max-width: 480px) {
+  .bg_home{
+      background:url("../../images/uploads/Dinadiesel-01-360x500.jpg")
+  }
+
+}
