@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
-import Checkbox from '@material-ui/core/Checkbox';
 import Fade from '@material-ui/core/Fade';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faLock } from '@fortawesome/free-solid-svg-icons'
@@ -46,11 +45,14 @@ let marcas  = []
 let modelos = []
 let servicios = []
 let subservicios = []
+let subserviciosfinal = []
 let mantenimientos = []
 
 
 class SimpleModalLogin extends React.Component {
   _isMounted = false;
+  _isMounted1 = false;
+  _isMounted2 = false;
   constructor(props) {
     super(props);
     this.state = ({
@@ -61,8 +63,13 @@ class SimpleModalLogin extends React.Component {
       Marcas:"",
       Modelos:"",
       Servicios:"",
+      SubServicios:"",
       ClassNameServicios:false,
       div_servicios:"d-none",
+      ClassNameSubServicios:false,
+      div_subservicios:"d-none",
+      ClassNameSubServiciosFinal:false,
+      div_subserviciosFinal:"d-none",
       ClassNameMantenimientos:false,
       div_mantenimientos:"d-none",
       ClassNameReparaciones:false,
@@ -84,6 +91,7 @@ class SimpleModalLogin extends React.Component {
       this.MakeModelos(0);
       this.MakeServicios();
       this.MakeSubServicios();
+      this.MakeSubServiciosFinal();
       this.MakeMantenimientos();
       this._isMounted = true;
     }
@@ -140,45 +148,11 @@ class SimpleModalLogin extends React.Component {
   }
 
   setServicios  = (event)  =>{
-    this.setState({
-      ClassNameServicios:false,
-      div_servicios:"d-none",
-      ClassNameMantenimientos:false,
-      div_mantenimientos:"d-none",
-      ClassNameReparaciones:false,
-      div_reparaciones:"d-none",
-      ClassNameRepuestos:false,
-      div_repuestos:"d-none",
-    });
-    switch(event.currentTarget.value){
-      case "servicios":
-        this.setState({
-          ClassNameServicios:true,
-          div_servicios:"d-block",
-        })
-      break;
-      case "mantenimientos":
-        this.setState({
-          ClassNameMantenimientos:true,
-          div_mantenimientos:"d-block",
-        })
-      break;
-      case "reparaciones":
-        this.setState({
-          ClassNameReparaciones:true,
-          div_reparaciones:"d-block",
-        })
-      break;
-      case "repuestos":
-        this.setState({
-          ClassNameRepuestos:true,
-          div_repuestos:"d-block",
-        })
-      break;
-      default:
+    this.MakeSubServicios(event.target.value);
+  }
 
-      break;
-    }
+  setSubServicios  = (event)  =>{
+    this.MakeSubServiciosFinal(event.target.value);
   }
 
   MakeMarcas=()=>{
@@ -195,6 +169,7 @@ class SimpleModalLogin extends React.Component {
         if(value.marca_id===parent){
           modelos.push(<option key={index} value={value.modelo_id}>{value.modelo}</option>)
         }
+
       }else{
         modelos.push(<option key={index} value={value.modelo_id}>{value.modelo}</option>)
       }
@@ -202,7 +177,7 @@ class SimpleModalLogin extends React.Component {
     if(this._isMounted === false){
 
     }else{
-        this.setState({ modelos: modelos });
+      this.setState({ modelos: modelos });
     }
     this._isMounted = true;
   }
@@ -215,31 +190,76 @@ class SimpleModalLogin extends React.Component {
   }
 
   MakeSubServicios=(parent)=>{
-    subservicios=[]
-    Object.entries(items.subservicios.servicios).map(function(item, i){
-      subservicios.push(
-        <div  key={i}>
-          <Checkbox
-            name={"servicio["+i+"]"}
-            value={item[1].servicio}
-          />
-          {item[1].servicio}
-        </div>)
-      return i;
-    })
+    subservicios = []
+    for (const [index,value] of items.subservicios.entries()) {
+      if(parent>0){
+        if(value.servicio_id===parent){
+          subservicios.push(<option key={index} value={value.id}>{value.sub_servicio}</option>)
+        }
+      }else{
+        subservicios.push(<option key={index} value={value.id}>{value.sub_servicio}</option>)
+      }
+    }
+    if(this._isMounted1 === false){
+
+    }else{
+      if(subservicios.length>0){
+        this.setState({
+          ClassNameSubServicios:true,
+          div_subservicios:"d-block"
+        })
+      }else{
+        this.setState({
+          ClassNameSubServicios:false,
+          div_subservicios:"d-none"
+        })
+      }
+      this.setState({ SubServicios: subservicios });
+    }
+    this._isMounted1 = true;
+  }
+
+  MakeSubServiciosFinal=(parent)=>{
+    subserviciosfinal = []
+    for (const [index,value] of items.subserviciosfinal.entries()) {
+      if(parent>0){
+        if(value.parent_id===parent){
+          subserviciosfinal.push(<option key={index} value={value.servicio_id}>{value.sub_servicio}</option>)
+        }
+      }else{
+        subserviciosfinal.push(<option key={index} value={value.servicio_id}>{value.sub_servicio}</option>)
+      }
+    }
+    if(this._isMounted2 === false){
+
+    }else{
+      if(subserviciosfinal.length>0){
+        this.setState({
+          ClassNameSubServiciosFinal:true,
+          div_subserviciosFinal:"d-block"
+        })
+      }else{
+        this.setState({
+          ClassNameSubServiciosFinal:false,
+          div_subserviciosFinal:"d-none"
+        })
+      }
+      this.setState({ SubServiciosFinal: subserviciosfinal });
+    }
+    this._isMounted2 = true;
   }
 
   MakeMantenimientos=(parent)=>{
     mantenimientos=[]
-    Object.entries(items.subservicios.mantenimientos).map(function(item, i){
-      mantenimientos.push(
-        <div  key={i}><Checkbox
-                        name="mantenimientos[]"
-                        value={item[1].servicio}/>
-                        {item[1].servicio}
-        </div>)
-      return i;
-    })
+    // Object.entries(items.subservicios.mantenimientos).map(function(item, i){
+    //   mantenimientos.push(
+    //     <div  key={i}><Checkbox
+    //                     name="mantenimientos[]"
+    //                     value={item[1].servicio}/>
+    //                     {item[1].servicio}
+    //     </div>)
+    //   return i;
+    // })
   }
 
   render() {
@@ -262,13 +282,29 @@ class SimpleModalLogin extends React.Component {
                 {marcas}
               </select>
               <select className="custom-select mb-2" name="modelos">
-                <option value="">Seleccione la Modelo</option>
+                <option value="">Seleccione el Modelo</option>
                 {modelos}
               </select>
               <select className="custom-select mb-2" name="servicios" onChange={this.setServicios}>
-                <option value="">Seleccione la Servicio</option>
+                <option value="">Seleccione el Servicio</option>
                 {servicios}
               </select>
+              <Fade in={this.state.ClassNameSubServicios}>
+                <div className={this.state.div_subservicios}>
+                  <select className="custom-select mb-2" name="subservicios" onChange={this.setSubServicios}>
+                    <option value="">Seleccione el SubServicio</option>
+                    {subservicios}
+                  </select>
+                </div>
+              </Fade>
+              <Fade in={this.state.ClassNameSubServiciosFinal}>
+                <div className={this.state.div_subserviciosFinal}>
+                  <select className="custom-select mb-2" name="subserviciosfinal" onChange={this.setSubServiciosFinal}>
+                    <option value="">Seleccione el SubServicio Final</option>
+                    {subserviciosfinal}
+                  </select>
+                </div>
+              </Fade>
               <div className="mt-0 mb-3">
                 <input type="text" maxLength="7" name="placa" placeholder="Placas" className="form-control"/>
               </div>
