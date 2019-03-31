@@ -164,7 +164,7 @@ class Body extends React.Component {
       <div style={this.bloques}>
         <SwipeableViews style={this.wfull} index={value}  onChange={this.handleChange}>
           {<TabContainer style={this.maxheight}><Promociones/></TabContainer>}
-          {<TabContainer style={this.maxheight}><Cotizaciones/></TabContainer>}
+          {<TabContainer style={this.maxheight}><Cotizaciones globalprops={this.props.globalprops} handleClickModal={this.props.handleClickModal}/></TabContainer>}
           {<TabContainer style={this.maxheight}><Citas globalprops={this.props.globalprops} handleClickModal={this.props.handleClickModal}/></TabContainer>}
           {<TabContainer style={this.maxheight}><Chat/></TabContainer>}
         </SwipeableViews>

@@ -10,6 +10,7 @@ import Login from './Componentes/Usuarios/Login';
 import Nosotros from './Componentes/Nosotros';
 import Contacto from './Componentes/Contacto';
 import NuevaCita from './Componentes/Restringido/NuevaCita';
+import NuevaCotizacion from './Componentes/Restringido/NuevaCotizacion';
 import Ubicacion from './Componentes/Ubicacion';
 import Page404 from './Componentes/Basico/Page404';
 import Header from './Componentes/Basico/Header';
@@ -102,11 +103,12 @@ class MainRoute extends React.Component {
       apiRest(this.props.ApiRest,{"action":"closeSession","Key":localStorage.getItem('Key')},{});
       localStorage.removeItem('User');
       localStorage.clear();
+      apiRest(this.props.ApiRest + "Key",{},{"store":"Key","content":localStorage});
       return;
       case "Contacto":
       return <Contacto/>;
       case "nuevaCotizacion":
-      return <NuevaCita globalprops={this.props} handleClick={this.handleClickMenu} handleClickModal={this.handleOpenGenerico}/>;
+      return <NuevaCotizacion globalprops={this.props} handleClick={this.handleClickMenu} handleClickModal={this.handleOpenGenerico}/>;
       case "nuevaCita":
       return <NuevaCita globalprops={this.props} handleClick={this.handleClickMenu} handleClickModal={this.handleOpenGenerico}/>;
       case "Ubicacion":
